@@ -223,6 +223,8 @@ userinit(void)
   p = allocproc();
   initproc = p;
 
+  p->priority = 20;
+
   p->cwd = namei("/");
 
   p->state = RUNNABLE;
@@ -266,7 +268,7 @@ kfork(void)
   if ((np = allocproc()) == 0) {
     return -1;
   }
-
+  
   // Copy user memory from parent to child.
   if (uvmcopy(p->pagetable, np->pagetable, p->sz) < 0) {
     freeproc(np);
@@ -274,6 +276,8 @@ kfork(void)
     return -1;
   }
   np->sz = p->sz;
+
+  np->priority=20;
 
   // copy saved user registers.
   *(np->trapframe) = *(p->trapframe);
@@ -698,4 +702,36 @@ procdump(void)
     printk("%d %s %s", p->pid, state, p->name);
     printk("\n");
   }
+}
+
+int
+cps(void)
+{
+  static char *states[] = {
+    // clang-format off
+    [UNUSED]    = "unused",
+    [USED]      = "used",
+    [SLEEPING]  = "sleep ",
+    [RUNNABLE]  = "runble",
+    [RUNNING]   = "run   ",
+    [ZOMBIE]    = "zombie"
+    // clang-format on
+  };
+  struct proc *p;
+
+  printk("Name\tPID\tState\tPriority\n");
+
+  // iterate through processes using process aray
+  for(p = proc; p < &proc[NPROC]; p++) {
+    acquire(&p->lock);
+
+    if(p->state != UNUSED) {
+      printk("%s\t%d\t%s\t%d\n",
+            p->name, p->pid, states[p->state], p->priority);
+    }
+
+    release(&p->lock);
+  }
+
+  return 0;
 }
