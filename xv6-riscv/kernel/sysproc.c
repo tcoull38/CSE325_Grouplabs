@@ -111,6 +111,27 @@ sys_uptime(void)
   return xticks;
 }
 
+
+uint64 sys_set_priority(void)
+{
+  int pid, nice;
+  
+  argint(0, &pid);
+  argint(1, &nice);
+  
+  return set_priority(pid, nice);
+}
+
+uint64 sys_get_priority(void)
+{
+  int pid;
+  
+  argint(0, &pid);
+  
+  return get_priority(pid);
+}
+
+
 uint64
 sys_cps(void)
 {

@@ -223,7 +223,7 @@ userinit(void)
   p = allocproc();
   initproc = p;
 
-  p->priority = 20;
+  p->nice = 20;
 
   p->cwd = namei("/");
 
@@ -277,7 +277,7 @@ kfork(void)
   }
   np->sz = p->sz;
 
-  np->priority=20;
+  np->nice=20;
 
   // copy saved user registers.
   *(np->trapframe) = *(p->trapframe);
@@ -704,6 +704,43 @@ procdump(void)
   }
 }
 
+int set_priority(int pid, int nice)
+{
+  struct proc *p;
+
+  for(p = proc; p < &proc[NPROC]; p++){
+    acquire(&p->lock);
+    if(p->pid == pid){
+      p->nice = nice;
+      release(&p->lock);
+      return 0;
+    }
+    release(&p->lock);
+  }
+  
+  return -1;
+}
+
+int get_priority(int pid)
+{
+  struct proc *p;
+  
+  int nice;
+
+  for(p = proc; p < &proc[NPROC]; p++){
+    acquire(&p->lock);
+    if(p->pid == pid){
+      nice = p->nice;
+      release(&p->lock);
+      return nice;
+    }
+    release(&p->lock);
+  }
+  
+  return -1;
+}
+
+
 int
 cps(void)
 {
@@ -727,7 +764,7 @@ cps(void)
 
     if(p->state != UNUSED) {
       printk("%s\t%d\t%s\t%d\n",
-            p->name, p->pid, states[p->state], p->priority);
+            p->name, p->pid, states[p->state], p->nice);
     }
 
     release(&p->lock);
