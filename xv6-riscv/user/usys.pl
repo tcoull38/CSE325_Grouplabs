@@ -43,4 +43,6 @@ entry("sbrk");
 entry("pause");
 entry("uptime");
 entry("sync");
+entry("set_priority");
+entry("get_priority");
 entry("cps");
