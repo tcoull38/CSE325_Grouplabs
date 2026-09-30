@@ -1,0 +1,14 @@
+ESTIMATE of time to complete lab: 4 hours
+Start Time Lab
+Date Time Spent Part Work completed
+---- ----- ---- ---- ---------
+9/28 10:00 1:20 1   Read assignment, completed exercise 1
+9/29  3:55 0:20 2   Integrated lab 2 code and completed exercise 2
+-----
+1:40 TOTAL time spent
+
+Dis1cussion of Difficulties Encountered:
+- Main difficulties I faced were going through and making sure all of the system call files
+  worked properly with the lab 2 code. 
+- The only other difficulties were just making sure the kernel file modifications were 
+  working properly with respect to the lab 2 code and cps()
