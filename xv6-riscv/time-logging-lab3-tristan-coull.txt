@@ -1,0 +1,9 @@
+Estimate of time to complete lab: 3 hours
+
+Date    | Start Time | Time Spent | Work Completed
+9/29/26 | 10:00 a.m   | 28 minutes | Edited kernel/exec.c , created lab3test2.c and ran lab3test2 while noting observations.
+9/29/26 | 10:50 a.m   | 85 minutes | Modified scheduler for a basic priority scheduling algo and ran a similar test with lab3test2 and noted the observations from it.
+                      Total time: 1 hour 53 minutes
+      
+Difficulties encountered:
+Intially I invoked lab3test instead of lab3test2 and I was a little confused about the observations until I realized that I invoked the wrong file. Also when doing task 4 excercise 5 one of the process that I changed the nice value of terminated right before I ran ps so I was not able to see if the nice value was changed but I assumed it did change since the other process nice value changed
